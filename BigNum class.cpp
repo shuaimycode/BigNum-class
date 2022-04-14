@@ -1,18 +1,18 @@
 #include <iostream>
+#include<cstring>
 using namespace std;
 #define N 100
 
-/*BigNumÀàµÄÊı¾İ³ÉÔ±°üÀ¨£º
-¢ÙË½ÓĞÊı¾İ³ÉÔ±£ºÊıÖµÓònum(char []ĞÍ)¡£
-BigNumÀà³ÉÔ±º¯Êı°üÀ¨£º
-¢ÙÓĞ²Î¹¹Ôìº¯ÊıBigNum(char c[])ºÍ¿½±´¹¹Ôìº¯ÊıBigNum(const  BigNum  &)£¬ÆäÖĞÓĞ²Î¹¹Ôìº¯Êı²ÎÊıÄ¬ÈÏÖµÎª"+0"£¬Êä³öĞÅÏ¢"BigNum Constructor run"£¬¿½±´¹¹Ôìº¯ÊıÊä³öĞÅÏ¢"BigNum CopyConstructor run"
-¢ÚÎö¹¹º¯Êı£¬Îö¹¹º¯ÊıÊä³öĞÅÏ¢"BigNum Destructor run"
-¢Û¹«ÓĞº¯Êı³ÉÔ±void  setNum(char c[])ºÍchar const *getNum(void) const·Ö±ğ·µ»ØºÍÉèÖÃÊıÖµÓò¡£
-¢ÜÖØÔØ¡°+¡±ÔËËã·û£¬ÊµÏÖÁ½¸öBigNum¶ÔÏóÏà¼ÓµÄÔËËã
-¢İÖØÔØ¡°-¡±ÔËËã·û£¬ÊµÏÖÁ½¸öBigNum¶ÔÏóÏà¼õµÄÔËËã
-¢Ş¹«ÓĞ³ÉÔ±º¯Êıvoid show() constÓÃÓÚÏÔÊ¾BigNum¶ÔÏóµÄĞÅÏ¢£¬ÏÔÊ¾¸ñÊ½Îª£ºBigNum(<ÊıÖµÓò>)*/
+/*BigNumç±»çš„æ•°æ®æˆå‘˜åŒ…æ‹¬ï¼š
+â‘ ç§æœ‰æ•°æ®æˆå‘˜ï¼šæ•°å€¼åŸŸnum(char []å‹)ã€‚
+BigNumç±»æˆå‘˜å‡½æ•°åŒ…æ‹¬ï¼š
+â‘ æœ‰å‚æ„é€ å‡½æ•°BigNum(char c[])å’Œæ‹·è´æ„é€ å‡½æ•°BigNum(const  BigNum  &)ï¼Œå…¶ä¸­æœ‰å‚æ„é€ å‡½æ•°å‚æ•°é»˜è®¤å€¼ä¸º"+0"ï¼Œè¾“å‡ºä¿¡æ¯"BigNum Constructor run"ï¼Œæ‹·è´æ„é€ å‡½æ•°è¾“å‡ºä¿¡æ¯"BigNum CopyConstructor run"
+â‘¡ææ„å‡½æ•°ï¼Œææ„å‡½æ•°è¾“å‡ºä¿¡æ¯"BigNum Destructor run"
+â‘¢å…¬æœ‰å‡½æ•°æˆå‘˜void  setNum(char c[])å’Œchar const *getNum(void) conståˆ†åˆ«è¿”å›å’Œè®¾ç½®æ•°å€¼åŸŸã€‚
+â‘£é‡è½½â€œ+â€è¿ç®—ç¬¦ï¼Œå®ç°ä¸¤ä¸ªBigNumå¯¹è±¡ç›¸åŠ çš„è¿ç®—
+â‘¤é‡è½½â€œ-â€è¿ç®—ç¬¦ï¼Œå®ç°ä¸¤ä¸ªBigNumå¯¹è±¡ç›¸å‡çš„è¿ç®—
+â‘¥å…¬æœ‰æˆå‘˜å‡½æ•°void show() constç”¨äºæ˜¾ç¤ºBigNumå¯¹è±¡çš„ä¿¡æ¯ï¼Œæ˜¾ç¤ºæ ¼å¼ä¸ºï¼šBigNum(<æ•°å€¼åŸŸ>)*/
 
-#include<cstring>
 class BigNum
 {
 private:
@@ -107,216 +107,28 @@ char const * BigNum::getNum(void) const
 
 BigNum BigNum::operator + ( const BigNum &a )
 {
-    BigNum s;
-    BigNum s2(a);
-    int i;
-    int len1 = strlen(num);
-    int len2 = strlen(s2.num);
-    int Max=0;
-    if( len1 > len2)
+    if(num[0]=='+' && a.num[0]=='-')
     {
-        Max = len1;
-        num[len1] = '0';
-        for( i=len2; i<=len1; i++)
-        {
-            s2.num[i] = '0';
-        }
-    }
-    else
-    {
-        if( len1 < len2)
-        {
-            Max = len2;
-            s2.num[len2] = '0';
-            for( i=len1; i<=len2; i++)
-            {
-                num[i] = '0';
-            }
-        }
-        else
-        {
-            Max = len1;
-            s2.num[len2] = '0';
-            num[len1] = '0';
-        }
-    }
-    if( (num[0]=='+' && s2.num[0]=='+') || (num[0]=='-' && s2.num[0]=='-') )
-    {
-        for( i=1; i<=Max; i++)
-        {
-            int c = ( (num[i]-'0') + (s2.num[i]-'0') );
-            if( c>= 10 )
-            {
-                c -= 10;
-                s.num[i] = char( c +'0');
-                s2.num[i+1]++;
-            }
-            else
-            {
-                s.num[i] = char( c + '0');
-            }
-        }
-        s.num[i] = '\0';
-        if(num[0]=='+' && s2.num[0]=='+')
-        {
-            s.num[0] = '+';
-        }
-        if(num[0]=='-' && s2.num[0]=='-' )
-        {
-            s.num[0] = '-';
-        }
-    }
-    if(num[0]=='+' && s2.num[0]=='-')
-    {
+        BigNum s2(a);
         s2.num[0] = '+';
-        char s1[N];
-        char s3[N];
-        int j;
-        for( i=Max,j=0; i>0; j++,i--)
-        {
-            s1[j] = num[i];
-        }
-        s1[j] = '\0';
-        for( i=Max,j=0; i>0; j++,i--)
-        {
-            s3[j] = s2.num[i];
-        }
-        s3[j] = '\0';
-        if( strcmp(s1,s3)>0 )
-        {
-            s.num[0] = '+';
-            for( i=1; i<=Max; i++)
-            {
-                int c = ( (num[i]-'0') - (s2.num[i]-'0'));
-                if( c<0 )
-                {
-                    c+=10;
-                    s.num[i] = char( c + '0');
-                    num[i+1]--;
-                }
-                else
-                {
-                    s.num[i] = char( c + '0');
-                }
-            }
-            s.num[i] = '\0';
-        }
-        else
-        {
-            if( strcmp(s1,s3)<0 )
-            {
-                s.num[0] = '-';
-                for( i=1; i<=Max; i++)
-                {
-                    int c = ( (s2.num[i]-'0') - (num[i]-'0'));
-
-                    if( c<0 )
-                    {
-                        c+=10;
-                        s.num[i] = char( c + '0');
-
-                        s2.num[i+1]--;
-                    }
-                    else
-                    {
-                        s.num[i] = char( c + '0');
-
-                    }
-                }
-                s.num[i] = '\0';
-            }
-            else
-            {
-                s.num[0] = '+';
-                s.num[1] = '0';
-                s.num[2] = '\0';
-            }
-        }
+        return  (*this) - s2;
     }
-    if(num[0]=='-' && s2.num[0]=='+')
+    if(num[0]=='-' && a.num[0]=='+')
     {
+        BigNum s2(a);
         num[0] = '+';
-        for( i=0; num[i]!='\0'; i++ )
-        {
-            char ch;
-            ch = num[i];
-            num[i] = s2.num[i];
-            s2.num[i] = ch;
-        }
-        char s1[N];
-        char s3[N];
-        int j;
-        for( i=Max,j=0; i>0; j++,i--)
-        {
-            s1[j] = num[i];
-        }
-        s1[j] = '\0';
-        for( i=Max,j=0; i>0; j++,i--)
-        {
-            s3[j] = s2.num[i];
-        }
-        s3[j] = '\0';
-        if( strcmp(s1,s3)>0 )
-        {
-            s.num[0] = '+';
-            for( i=1; i<=Max; i++)
-            {
-                int c = ( (num[i]-'0') - (s2.num[i]-'0'));
-                if( c<0 )
-                {
-                    c+=10;
-                    s.num[i] = char( c + '0');
-                    num[i+1]--;
-                }
-                else
-                {
-                    s.num[i] = char( c + '0');
-                }
-            }
-            s.num[i] = '\0';
-        }
-        else
-        {
-            if( strcmp(s1,s3)<0 )
-            {
-                s.num[0] = '-';
-                for( i=1; i<=Max; i++)
-                {
-                    int c = ( (s2.num[i]-'0') - (num[i]-'0'));
-
-                    if( c<0 )
-                    {
-                        c+=10;
-                        s.num[i] = char( c + '0');
-
-                        s2.num[i+1]--;
-                    }
-                    else
-                    {
-                        s.num[i] = char( c + '0');
-
-                    }
-                }
-                s.num[i] = '\0';
-            }
-            else
-            {
-                s.num[0] = '+';
-                s.num[1] = '0';
-                s.num[2] = '\0';
-            }
-        }
+        return s2 - (*this);
     }
-    return s;
-}
-
-BigNum BigNum::operator - (  BigNum &b )
-{
     BigNum s;
-    BigNum s2(b);
     int i;
+    char s2[N];
+    for( i=0; a.num[i]!='\0'; i++)
+    {
+        s2[i] = a.num[i];
+    }
+    s2[i] = '\0';
     int len1 = strlen(num);
-    int len2 = strlen(s2.num);
+    int len2 = strlen(s2);
     int Max=0;
     if( len1 > len2)
     {
@@ -324,7 +136,7 @@ BigNum BigNum::operator - (  BigNum &b )
         num[len1] = '0';
         for( i=len2; i<=len1; i++)
         {
-            s2.num[i] = '0';
+            s2[i] = '0';
         }
     }
     else
@@ -332,7 +144,7 @@ BigNum BigNum::operator - (  BigNum &b )
         if( len1 < len2 )
         {
             Max = len2;
-            s2.num[len2] = '0';
+            s2[len2] = '0';
             for( i=len1; i<=len2; i++)
             {
                 num[i] = '0';
@@ -341,22 +153,104 @@ BigNum BigNum::operator - (  BigNum &b )
         else
         {
             Max = len1;
-            s2.num[len2] = '0';
+            s2[len2] = '0';
             num[len1] = '0';
         }
     }
-    if( (num[0]=='+' && s2.num[0]=='+') || (num[0]=='-' && s2.num[0]=='-') )
+    if( (num[0]=='+' && s2[0]=='+') || (num[0]=='-' && s2[0]=='-') )
     {
-        if(num[0]=='-' && s2.num[0]=='-')
+        for( i=1; i<=Max; i++)
         {
-            s2.num[0] = '+';
+            int c = ( (num[i]-'0') + (s2[i]-'0') );
+            if( c>= 10 )
+            {
+                c -= 10;
+                s.num[i] = char( c +'0');
+                s2[i+1]++;
+            }
+            else
+            {
+                s.num[i] = char( c + '0');
+            }
+        }
+        s.num[i] = '\0';
+        if(num[0]=='+' && s2[0]=='+')
+        {
+            s.num[0] = '+';
+        }
+        if(num[0]=='-' && s2[0]=='-' )
+        {
+            s.num[0] = '-';
+        }
+    }
+
+    return s;
+}
+
+BigNum BigNum::operator - (  BigNum &b )
+{
+    if(num[0]=='+' && b.num[0]=='-')
+    {
+        BigNum s2(b);
+        s2.num[0] = '+';
+        return  (*this) + s2;
+    }
+    if(num[0]=='-' && b.num[0]=='+')
+    {
+        BigNum s2(b);
+        s2.num[0] = '-';
+        return  (*this) + s2;
+    }
+    BigNum s;
+    int i;
+    char s2[N];
+    for( i=0; b.num[i]!='\0'; i++)
+    {
+        s2[i] = b.num[i];
+    }
+    s2[i] = '\0';
+    int len1 = strlen(num);
+    int len2 = strlen(s2);
+    int Max=0;
+    if( len1 > len2)
+    {
+        Max = len1;
+        num[len1] = '0';
+        for( i=len2; i<=len1; i++)
+        {
+            s2[i] = '0';
+        }
+    }
+    else
+    {
+        if( len1 < len2 )
+        {
+            Max = len2;
+            s2[len2] = '0';
+            for( i=len1; i<=len2; i++)
+            {
+                num[i] = '0';
+            }
+        }
+        else
+        {
+            Max = len1;
+            s2[len2] = '0';
+            num[len1] = '0';
+        }
+    }
+    if( (num[0]=='+' && s2[0]=='+') || (num[0]=='-' && s2[0]=='-') )
+    {
+        if(num[0]=='-' && s2[0]=='-')
+        {
+            s2[0] = '+';
             num[0] = '+';
             for( i=0; num[i]!='\0'; i++ )
             {
                 char ch;
                 ch = num[i];
-                num[i] = s2.num[i];
-                s2.num[i] = ch;
+                num[i] = s2[i];
+                s2[i] = ch;
             }
         }
         char s1[N];
@@ -369,7 +263,7 @@ BigNum BigNum::operator - (  BigNum &b )
         s1[j] = '\0';
         for( i=Max,j=0; i>0; j++,i--)
         {
-            s3[j] = s2.num[i];
+            s3[j] = s2[i];
         }
         s3[j] = '\0';
         if( strcmp(s1,s3)>0 )
@@ -377,7 +271,7 @@ BigNum BigNum::operator - (  BigNum &b )
             s.num[0] = '+';
             for( i=1; i<=Max; i++)
             {
-                int c = ( (num[i]-'0') - (s2.num[i]-'0'));
+                int c = ( (num[i]-'0') - (s2[i]-'0'));
                 if( c<0 )
                 {
                     c+=10;
@@ -398,14 +292,14 @@ BigNum BigNum::operator - (  BigNum &b )
                 s.num[0] = '-';
                 for( i=1; i<=Max; i++)
                 {
-                    int c = ( (s2.num[i]-'0') - (num[i]-'0'));
+                    int c = ( (s2[i]-'0') - (num[i]-'0'));
 
                     if( c<0 )
                     {
                         c+=10;
                         s.num[i] = char( c + '0');
 
-                        s2.num[i+1]--;
+                        s2[i+1]--;
                     }
                     else
                     {
@@ -422,49 +316,6 @@ BigNum BigNum::operator - (  BigNum &b )
                 s.num[2] = '\0';
             }
         }
-    }
-
-    if(num[0]=='+' && s2.num[0]=='-')
-    {
-        s2.num[0] = '+';
-        for( i=1; i<=Max; i++)
-        {
-            int c = ( (num[i]-'0') + (s2.num[i]-'0') );
-            if( c>= 10 )
-            {
-                c -= 10;
-                s.num[i] = char( c +'0');
-                s2.num[i+1]++;
-            }
-            else
-            {
-                s.num[i] = char( c + '0');
-            }
-        }
-        s.num[i] = '\0';
-        s.num[0] = '+';
-    }
-
-
-    if(num[0]=='-' && s2.num[0]=='+')
-    {
-        s2.num[0] = '-';
-        for( i=1; i<=Max; i++)
-        {
-            int c = ( (num[i]-'0') + (s2.num[i]-'0') );
-            if( c>= 10 )
-            {
-                c -= 10;
-                s.num[i] = char( c +'0');
-                s2.num[i+1]++;
-            }
-            else
-            {
-                s.num[i] = char( c + '0');
-            }
-        }
-        s.num[i] = '\0';
-        s.num[0] = '-';
     }
     return s;
 }
@@ -498,9 +349,8 @@ void BigNum::show() const
         cout<<")"<<endl;
     }
 }
-//Ö÷º¯Êı
-int main(void)
-{
+//ä¸»å‡½æ•°
+int main(void){
     char c[100],op;
     cin>>c;
     BigNum b1(c),b2(b1);
@@ -513,3 +363,4 @@ int main(void)
     if(op=='-') (b1-b2).show();
     return 0;
 }
+2
